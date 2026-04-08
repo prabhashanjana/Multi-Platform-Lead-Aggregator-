@@ -1,0 +1,8 @@
+playwright
+pandas
+pandera
+gspread
+loguru
+tenacity
+python-dotenv
+dotenv
