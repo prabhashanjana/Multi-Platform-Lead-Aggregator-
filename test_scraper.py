@@ -1,12 +1,7 @@
-from scrapers.craigslist import scrape_listings
-from config import SEARCH_URL_CRAIGSLIST
+from scrapers.rightmove import scrape_listings as rightmove_scrape
+from config import SEARCH_URL_RIGHTMOVE
 
-results = scrape_listings(SEARCH_URL_CRAIGSLIST)
+results = rightmove_scrape(SEARCH_URL_RIGHTMOVE)
 print(f"Total listings: {len(results)}")
-
-
-# Fix — always check first
 if results:
     print(results[0])
-else:
-    print("No results returned")
