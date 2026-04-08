@@ -4,6 +4,8 @@ from pipeline.normalise import normalise
 from pipeline.deduplicate import deduplicate
 from pipeline.validate import validate
 from config import SEARCH_URL_CRAIGSLIST, SEARCH_URL_RIGHTMOVE
+from outputs.sheets import push_to_sheets
+import pandas as pd
 
 cl_data = cl_scrape(SEARCH_URL_CRAIGSLIST)
 rm_data = rm_scrape(SEARCH_URL_RIGHTMOVE)
@@ -15,3 +17,5 @@ df = validate(df)
 
 print(df.head())
 print(f"Final record count: {len(df)}")
+df.to_csv("test_data.csv", index=False)
+push_to_sheets(df)
