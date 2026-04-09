@@ -37,8 +37,6 @@ def main() -> None:
     send_digest(df)
     logger.info(f"Pipeline complete — {len(df)} records processed")
 
-    logger.info("Pipeline complete")
-
 
 if __name__ == "__main__":
     main()

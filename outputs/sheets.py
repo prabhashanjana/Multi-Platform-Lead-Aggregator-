@@ -5,7 +5,6 @@ import pandas as pd
 
 
 def push_to_sheets(df: pd.DataFrame) -> None:
-    df = df.fillna("").astype(str)
     try:
         gc = gspread.service_account(filename=SERVICE_ACCOUNT_PATH)
         sheet = gc.open_by_url(GOOGLE_SHEETS_URL)
@@ -16,11 +15,11 @@ def push_to_sheets(df: pd.DataFrame) -> None:
             worksheet.append_row(
                 ["title", "price", "location", "url", "posted_at", "source"])
 
-        new_rows = df[~df["url"].isin(existing_urls)]
-        new_rows = new_rows.copy()
+        new_rows = df[~df["url"].isin(existing_urls)].copy()
+        new_rows = new_rows.astype(object).where(new_rows.notna(), "")
         new_rows = new_rows.astype(str)
-        new_rows = new_rows.replace("nan", "")
-        new_rows = new_rows.replace("NaT", "")
+        new_rows = new_rows.where(new_rows != "nan", "")
+        new_rows = new_rows.where(new_rows != "NaT", "")
 
         if new_rows.empty:
             logger.info("No new rows to append")
