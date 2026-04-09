@@ -10,12 +10,11 @@ def push_to_sheets(df: pd.DataFrame) -> None:
         sheet = gc.open_by_url(GOOGLE_SHEETS_URL)
         worksheet = sheet.worksheet("Leads")
 
-        existing_urls = worksheet.col_values(4)
-        if not existing_urls:
-            worksheet.append_row(
-                ["title", "price", "location", "url", "posted_at", "source"])
+        worksheet.clear()
+        worksheet.append_row(
+            ["title", "price", "location", "url", "posted_at", "source"])
 
-        new_rows = df[~df["url"].isin(existing_urls)].copy()
+        new_rows = df.copy()
         new_rows = new_rows.astype(object).where(new_rows.notna(), "")
         new_rows = new_rows.astype(str)
         new_rows = new_rows.where(new_rows != "nan", "")
